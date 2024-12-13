@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-secondary-main;
+  }
+}
+
+@layer components {
+  .tippay-card {
+    @apply bg-white rounded-lg shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow duration-200;
+  }
+
+  .tippay-input {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-md 
+      focus:outline-none focus:ring-2 focus:ring-primary-main/50
+      placeholder:text-gray-400;
+  }
+
+  .tippay-button {
+    @apply px-4 py-2 rounded-md font-medium transition-all duration-200
+      disabled:opacity-50 disabled:cursor-not-allowed
+      focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .tippay-button-primary {
+    @apply bg-primary-main text-white hover:bg-primary-dark
+      focus:ring-primary-main;
+  }
+
+  .tippay-button-secondary {
+    @apply bg-secondary-main text-white hover:bg-secondary-dark
+      focus:ring-secondary-main;
+  }
+
+  .tippay-heading {
+    @apply text-2xl font-bold text-secondary-main mb-6;
+  }
+
+  .tippay-subheading {
+    @apply text-xl font-semibold text-secondary-main mb-4;
+  }
+}

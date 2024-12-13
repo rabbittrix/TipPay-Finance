@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tippay-ingress
+  namespace: tippay
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - api.tippay.com
+    secretName: tippay-tls
+  rules:
+  - host: api.tippay.com
+    http:
+      paths:
+      - path: /mtf
+        pathType: Prefix
+        backend:
+          service:
+            name: tippay-mtf-service
+            port:
+              number: 8085
+      - path: /data
+        pathType: Prefix
+        backend:
+          service:
+            name: tippay-data-processor-service
+            port:
+              number: 8080 

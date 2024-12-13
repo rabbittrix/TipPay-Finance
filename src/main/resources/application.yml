@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: tippay-mtf
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tippay_mtf
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/audit_logs
+
+security:
+  encryption:
+    key: ${ENCRYPTION_KEY}
+  oauth2:
+    client-id: tippay-web
+    client-secret: ${CLIENT_SECRET}
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: 3600000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name} 
+
+server:
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-store-type: PKCS12
+    key-alias: tippay
+    protocol: TLS
+    enabled-protocols: TLSv1.2,TLSv1.3

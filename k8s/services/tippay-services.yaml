@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tippay-mtf-service
+  namespace: tippay
+spec:
+  selector:
+    app: tippay-mtf
+  ports:
+  - port: 8085
+    targetPort: 8085
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tippay-data-processor-service
+  namespace: tippay
+spec:
+  selector:
+    app: tippay-data-processor
+  ports:
+  - port: 8080
+    targetPort: 8080
+  type: ClusterIP 

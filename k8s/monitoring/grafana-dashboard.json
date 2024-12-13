@@ -1,0 +1,29 @@
+{
+  "dashboard": {
+    "title": "TipPay Services Dashboard",
+    "panels": [
+      {
+        "title": "MTF Service Response Time",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{service=\"tippay-mtf\"}[5m])) by (le))",
+            "legendFormat": "95th percentile"
+          }
+        ]
+      },
+      {
+        "title": "Trade Volume",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(rate(trade_count_total[5m]))",
+            "legendFormat": "Trades per second"
+          }
+        ]
+      }
+    ]
+  }
+} 
