@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Generate changelog
+      id: changelog
+      uses: github-changelog-generator/github-changelog-generator@v1
+      with:
+        future-release: ${{ github.ref_name }}
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        body_path: CHANGELOG.md
+        draft: false
+        prerelease: false
+        files: |
+          dist/*.tar.gz
+          dist/*.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notify Slack
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        channel-id: 'releases'
+        slack-message: 'New release ${{ github.ref_name }} has been published! :rocket:'
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }} 

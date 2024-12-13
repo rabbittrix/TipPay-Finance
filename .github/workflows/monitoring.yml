@@ -1,0 +1,41 @@
+name: Monitoring
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Run every 15 minutes
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check API health
+      uses: jtalk/url-health-check-action@v3
+      with:
+        url: https://api.tippay.com/actuator/health
+        max-attempts: 3
+        retry-delay: 5s
+        follow-redirect: true
+
+    - name: Send alert on failure
+      if: failure()
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        channel-id: 'monitoring-alerts'
+        slack-message: 'API Health Check Failed! :rotating_light:'
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+  metrics-collection:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Collect Prometheus metrics
+      run: |
+        curl -o metrics.json https://api.tippay.com/actuator/prometheus
+        
+    - name: Process and alert on metrics
+      run: |
+        if grep -q 'http_server_requests_seconds_count.*5[0-9][0-9]' metrics.json; then
+          echo "High number of 5XX errors detected!"
+          exit 1
+        fi 
