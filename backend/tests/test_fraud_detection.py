@@ -1,5 +1,5 @@
 import pytest
-from ..apps.fraud_detection.models import Transaction
+from apps.fraud_detection.models import Transaction
 from decimal import Decimal
 
 def test_transaction_analysis(test_client, ml_model):
