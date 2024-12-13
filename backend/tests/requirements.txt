@@ -30,4 +30,9 @@ sqlalchemy==2.0.25
 elasticsearch==8.11.1
 kafka-python==2.0.2
 confluent-kafka==2.3.0
-loguru==0.7.2 
+loguru==0.7.2
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
+httpx==0.26.0 

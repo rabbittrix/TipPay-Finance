@@ -1,5 +1,7 @@
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+import joblib
+from ..models import MLModel
 from .utils import preprocess_transaction
 
 class FraudDetectionModel:

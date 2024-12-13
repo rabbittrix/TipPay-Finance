@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from .schemas import TransactionCreate, TransactionResponse
+from ..models import Transaction
 from ..ml.models import FraudDetectionModel
 from ..tasks import analyze_transaction
 

@@ -2,8 +2,9 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
-from ..apps.fraud_detection.api.endpoints import app
-from ..apps.fraud_detection.ml.models import FraudDetectionModel
+from apps.fraud_detection.models import Base
+from apps.fraud_detection.api.endpoints import app
+from apps.fraud_detection.ml.models import FraudDetectionModel
 
 @pytest.fixture
 def test_db():
